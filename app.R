@@ -910,7 +910,7 @@ B_03_14_headwind_cut_num <- 0.5
 ###### B_03_15: Version ########################################################
 # Note: Semantic version, shown in the footer; CHANGELOG.md has the history.
 
-B_03_15_version_chr <- "1.0.4"
+B_03_15_version_chr <- "1.0.5"
 
 ###### B_03_16: Source Repository ##############################################
 # Note: The GitHub repo, linked from the footer.
