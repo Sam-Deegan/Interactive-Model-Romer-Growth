@@ -910,7 +910,7 @@ B_03_14_headwind_cut_num <- 0.5
 ###### B_03_15: Version ########################################################
 # Note: Semantic version, shown in the footer; CHANGELOG.md has the history.
 
-B_03_15_version_chr <- "1.0.6"
+B_03_15_version_chr <- "1.0.7"
 
 ###### B_03_16: Source Repository ##############################################
 # Note: The GitHub repo, linked from the footer.
@@ -2292,33 +2292,24 @@ F_01_01_app_server_fn <- function(input, output, session) {
       class = "narrative",
       tags$div(class = "nar-head", "What the Evidence Says About phi"),
       tags$p(HTML(paste(
-        "<strong>The scale effect is the test.</strong> If phi were one,",
-        "a larger research workforce would mean a faster growth rate. The",
-        "number of researchers in the advanced economies has risen by orders",
-        "of magnitude since the 1950s and growth in output per worker has",
-        "not accelerated. That is hard to square with phi = 1 and easy to",
-        "square with phi below it."
+        "If &phi; were one, a larger research workforce would mean faster",
+        "growth. The number of researchers in the advanced economies has",
+        "risen by orders of magnitude since the 1950s and growth in output",
+        "per worker has not accelerated. The same pattern holds industry by",
+        "industry: far more researchers are needed to sustain the same rate",
+        "of improvement, so research productivity,",
+        "&theta;A<sup>&phi;&minus;1</sup> here, is falling. That fits",
+        "&phi; below one, not &phi; = 1."
       ))),
       tags$p(HTML(paste(
-        "<strong>Ideas are getting harder to find.</strong> The same pattern",
-        "shows up industry by industry: far more researchers are needed now",
-        "to sustain the same proportional rate of improvement. Research",
-        "productivity, in the sense of this model's theta A^(phi−1), is",
-        "falling."
-      ))),
-      tags$p(HTML(paste(
-        "<strong>Which does not make research pointless.</strong> In the",
-        "semi-endogenous version a research push still raises the level of",
-        "income permanently, and the figure on the left shows the country",
-        "is a long way from the share that would maximise it. A level effect",
-        "worth several per cent of income for ever is a serious policy",
-        "prize; it is just not a growth effect."
-      ))),
-      tags$p(HTML(paste(
-        "<strong>And it is why lecture 3.4 exists.</strong> If ideas are",
-        "getting harder to find, what determines how hard firms look? That",
-        "is a question about competition, entry and rents, which is where",
-        "the Schumpeterian model starts."
+        "Research is still worth doing. In the semi-endogenous case a",
+        "research push raises the level of income permanently, and the",
+        "figure on the left shows the country is well short of the share",
+        "that would maximise it. Several per cent of income for ever is a",
+        "serious policy prize; it is a level effect, not a growth effect.",
+        "What decides how hard firms look for ideas is a question about",
+        "competition, entry and rents, which is where the Schumpeterian",
+        "model of lecture 3.4 starts."
       )))
     )
   })
@@ -2331,43 +2322,39 @@ F_01_01_app_server_fn <- function(input, output, session) {
       tags$div(class = "nar-head",
                "Reading the Two Halves of the Model Together"),
       tags$p(HTML(paste(
-        "<strong>Capital never adds growth.</strong> On the balanced path",
-        "k&#771; is constant, so output per worker and capital per worker",
-        "both grow at g<sub>A</sub> and at nothing else. Saving more, or",
-        "starting with more capital, moves the level the economy settles on",
-        "and leaves the slope exactly where it was. That is Solow's result,",
-        "and it survives having the growth of technology explained rather",
-        "than assumed."
+        "On the balanced path k&#771; is constant, so output per worker",
+        "and capital per worker both grow at g<sub>A</sub> and nothing else.",
+        "Saving more, or starting with more capital, moves the level and",
+        "leaves the slope where it was. That is Solow's result, and it",
+        "survives having the growth of technology explained rather than",
+        "assumed."
       ))),
       tags$p(HTML(paste(
-        "<strong>Research has a cost the technology block could not",
-        "show.</strong> Output per effective worker on the balanced path is",
-        "(s/(n+g*+δ))<sup>α/(1−α)</sup> times (1−a). The capital term",
-        "is a constant multiplier, so the effect of the research share",
-        "on the level is the (1−a): a worker in a laboratory is a worker not",
-        "making anything, and no amount of capital accumulation buys that",
-        "worker back."
+        "Output per effective worker on the balanced path is",
+        "(s/(n+g*+&delta;))<sup>&alpha;/(1&minus;&alpha;)</sup>",
+        "times (1&minus;a). The capital term is a constant, so the research",
+        "share acts on the level through (1&minus;a) alone: a worker in a",
+        "laboratory is a worker not making anything, and capital",
+        "accumulation cannot buy that worker back."
       ))),
       tags$p(HTML(if (isTRUE(p$phi >= 1)) paste(
-        "<strong>At φ = 1 the cost is worth paying.</strong> The growth rate",
-        "is θ(aL)<sup>λ</sup>, which rises with the research share, so the",
-        "pushed path is permanently steeper. A level loss today against a",
-        "steeper slope for ever is a trade any government should take. Set φ",
-        "below one and read this paragraph again."
+        "At &phi; = 1 the cost is worth paying. The growth rate is",
+        "&theta;(aL)<sup>&lambda;</sup>, which rises with the research",
+        "share, so the pushed path is permanently steeper. Set &phi; below",
+        "one and the verdict reverses. Part (b) of the exam question asks",
+        "for the capital equation and the balanced growth result; the rest",
+        "asks what a change in the research share does, and the answer",
+        "depends on which case you are in."
       ) else paste(
-        "<strong>At φ &lt; 1 it buys no growth at all.</strong> The long-run",
-        "rate is λn/(1−φ), which has no a in it. Raising the research",
-        "share lowers output per effective worker and leaves growth",
-        "untouched. It still raises the level of technology, which is why",
-        "there is a best research share at all — but the growth rate is set",
-        "by population growth and by how hard ideas are to find, and policy",
-        "cannot reach either. Set φ to 1 and the verdict reverses."
-      ))),
-      tags$p(HTML(paste(
-        "<strong>Which is the exam question.</strong> Part (b) asks for the",
-        "capital equation and the balanced growth result; the rest asks what",
-        "a change in the research share does. Answering it means saying",
-        "which of the two cases you are in, and why."
+        "At &phi; &lt; 1 the push buys no growth. The long-run rate is",
+        "&lambda;n/(1&minus;&phi;), which has no a in it. A higher research",
+        "share lowers output per effective worker and raises the level of",
+        "technology, which is why a best share exists, but growth is set by",
+        "population growth and by how hard ideas are to find. Set &phi; to 1",
+        "and the verdict reverses. Part (b) of the exam question asks for",
+        "the capital equation and the balanced growth result; the rest asks",
+        "what a change in the research share does, and the answer depends",
+        "on which case you are in."
       )))
     )
   })
