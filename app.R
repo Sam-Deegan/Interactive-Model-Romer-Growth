@@ -910,7 +910,7 @@ B_03_14_headwind_cut_num <- 0.5
 ###### B_03_15: Version ########################################################
 # Note: Semantic version, shown in the footer; CHANGELOG.md has the history.
 
-B_03_15_version_chr <- "1.0.7"
+B_03_15_version_chr <- "1.0.8"
 
 ###### B_03_16: Source Repository ##############################################
 # Note: The GitHub repo, linked from the footer.
@@ -963,6 +963,14 @@ D_01_01_growth_fn <- function(par, stage, ref = NULL) {
     # The steady rate is named on the right-hand axis; see CONVENTIONS.md 6
     (if (rests) T_02_02_mark_y_fn(g_ss, expression(g[A]^"*"))) +
     labs(
+      title = if (stage >= 4 && par$phi >= 1) {
+        "The Growth Rate of Ideas Does Not Fade"
+      } else if (isTRUE(g_ss <= 0)) {
+        "The Growth Rate of Ideas Fades Away to Zero"
+      } else {
+        paste0("The Growth Rate of Ideas Settles at ",
+               if (is.na(g_ss)) "No Finite Rate" else T_02_06_pct_fn(g_ss, 2))
+      },
       x = expression(bold("Year (" * t * ")")),
       y = expression(bold("Growth rate of ideas (" * g[A] * ")")),
       caption = paste(
@@ -1008,6 +1016,16 @@ D_01_02_phase_fn <- function(par, ref = NULL) {
     T_02_02_mark_y_fn(0, expression(dot(g)[A] == 0)) +
     (if (rests) T_02_02_mark_x_fn(g_ss, expression(g[A]^"*"))) +
     labs(
+      title = if (isTRUE(par$phi >= 1) && isTRUE(par$n <= 0)) {
+        "The Growth Rate of Ideas Rests Wherever It Starts"
+      } else if (isTRUE(par$phi >= 1)) {
+        "The Growth Rate of Ideas Never Stops Rising"
+      } else if (is.na(g_ss) || g_ss <= 0) {
+        "The Growth Rate of Ideas Is Pulled Towards Zero"
+      } else {
+        paste0("The Growth Rate of Ideas Is Pulled Towards ",
+               T_02_06_pct_fn(g_ss, 2))
+      },
       x = expression(bold("Growth rate of ideas (" * g[A] * ")")),
       y = expression(bold("Change in the growth rate (" * dot(g)[A] * ")")),
       caption = paste(
@@ -1047,6 +1065,9 @@ D_01_03_tech_fn <- function(par, ref = NULL) {
     scale_y_log10(expand = expansion(mult = c(0.05, 0.09))) +
     T_02_03_point_fn(path$period[n_t], path$tech[n_t]) +
     labs(
+      title = paste0("The Stock of Ideas Reaches ",
+                     T_02_05_num_fn(path$tech[n_t], 1), " After ", n_t,
+                     " Years"),
       x = expression(bold("Year (" * t * ")")),
       y = expression(bold("Stock of ideas (" * A * "), log scale")),
       caption = if (isTRUE(g_ss <= 0)) {
@@ -1117,6 +1138,11 @@ D_02_01_share_growth_fn <- function(par, ref = NULL) {
                colour = T_01_01_palette_vec[["muted"]])
     }) +
     labs(
+      title = if (flat) {
+        "The Long-Run Growth Rate of Ideas Does Not Move"
+      } else {
+        "The Long-Run Growth Rate of Ideas Rises with a"
+      },
       x = expression(bold("Share of workers in research (" * a * ")")),
       y = expression(bold("Long-run growth rate of ideas (" *
                             g[A]^"*" * ")")),
@@ -1172,6 +1198,7 @@ D_02_02_share_level_fn <- function(par, ref = NULL) {
       T_02_02_mark_x_fn(best$share, expression(a["best"]))
     }) +
     labs(
+      title = "The Level of Output per Worker on the Balanced Path",
       x = expression(bold("Share of workers in research (" * a * ")")),
       y = expression(bold("Output per worker (" * Y / L * ")")),
       caption = paste0(
@@ -1263,6 +1290,11 @@ D_03_01_shift_fn <- function(par, what, ref = NULL) {
     p +
       (if (rests) T_02_02_mark_y_fn(g_ss, expression(g[A]^"*"))) +
       labs(
+        title = if (isTRUE(par$phi >= 1)) {
+          "The Growth Rate of Ideas Jumps and Stays Up"
+        } else {
+          "The Growth Rate of Ideas Jumps, Then Comes Back"
+        },
         x = expression(bold("Year (" * t * ")")),
         y = expression(bold("Growth rate of ideas (" * g[A] * ")")),
         caption = paste(
@@ -1274,6 +1306,7 @@ D_03_01_shift_fn <- function(par, what, ref = NULL) {
   } else {
     p + scale_y_log10() +
       labs(
+        title = "But the Stock of Ideas Is Permanently Higher",
         x = expression(bold("Year (" * t * ")")),
         y = expression(bold("Stock of ideas (" * A * "), log scale")),
         caption = paste(
@@ -1315,6 +1348,12 @@ D_04_01_ktilde_fn <- function(par, ref = NULL) {
     geom_line(colour = T_01_02_series_vec[["main"]], linewidth = 1.1) +
     (if (!is.na(k_ss)) T_02_02_mark_y_fn(k_ss, expression(tilde(k)^"*"))) +
     labs(
+      title = if (is.na(k_ss)) {
+        "Capital per Effective Worker Has No Resting Point"
+      } else {
+        paste0("Capital per Effective Worker Settles at ",
+               T_02_05_num_fn(k_ss, 2))
+      },
       x = expression(bold("Year (" * t * ")")),
       y = expression(bold("Capital per effective worker (" *
                             tilde(k) * ")")),
@@ -1399,6 +1438,12 @@ D_04_02_converge_fn <- function(par, ref = NULL) {
                                      "Technology"         = "solid")) +
     (if (rests) T_02_02_mark_y_fn(g_ss, expression(g[A]^"*"))) +
     labs(
+      title = if (is.na(g_ss)) {
+        "The Three Growth Rates Have No Rate to Meet At"
+      } else {
+        paste0("Output, Capital and Ideas All Grow at ",
+               T_02_06_pct_fn(g_ss, 2))
+      },
       x = expression(bold("Year (" * t * ")")),
       y = expression(bold("Growth rate (" * g * ")")),
       caption = paste(
@@ -1465,6 +1510,11 @@ D_05_01_level_fn <- function(par, ref = NULL) {
                colour = T_01_01_palette_vec[["muted"]])
     }) +
     labs(
+      title = if (flat) {
+        "Research Costs Level and Buys No Growth"
+      } else {
+        "Research Costs Level and Buys Growth"
+      },
       x = expression(bold("Share of workers in research (" * a * ")")),
       y = expression(bold("Output per effective worker (" *
                             tilde(y)^"*" * ")")),
@@ -1542,6 +1592,13 @@ D_05_02_push_fn <- function(par, ref = NULL) {
     scale_linetype_manual(values = c("With the Research Push" = "solid",
                                      "As It Is" = "22")) +
     labs(
+      title = if (isTRUE(par$phi >= 1)) {
+        "Output per Worker on a Permanently Steeper Path"
+      } else if (met) {
+        "Output per Worker: Different Level, Same Slope"
+      } else {
+        "Output per Worker Is Still Catching Up: the Slopes Have Not Met"
+      },
       x = expression(bold("Year (" * t * ")")),
       y = expression(bold("Output per worker (" * Y / L * "), log scale")),
       caption = paste0(
@@ -1607,6 +1664,9 @@ D_06_01_cost_today_fn <- function(par, ref = NULL) {
              parse = TRUE, size = 3.2, hjust = 1, vjust = -0.7,
              colour = T_01_01_palette_vec[["muted"]]) +
     labs(
+      title = paste0("Output per Worker Today Is ",
+                     T_02_06_pct_fn(1 - par$a_res, 0),
+                     " of Capacity"),
       x = expression(bold("Share of workers in research (" * a * ")")),
       y = expression(bold("Output per worker today (" * Y / L * ")")),
       caption = paste(
@@ -1647,6 +1707,7 @@ D_06_02_split_fn <- function(par) {
                       expression(L[Y] == (1 - a) * L)) +
     guides(fill = "none") +
     labs(
+      title = "Every Worker Is Either Finding Ideas or Making Goods",
       x = NULL, y = expression(bold("Workers (" * L * ")")),
       caption = paste(
         "L = L_A + L_Y with L_A = aL. Output is made by the green slice's",
@@ -1723,6 +1784,13 @@ D_07_01_headwinds_fn <- function(par,
     guides(colour = "none") +
     coord_flip() +
     labs(
+      title = "The Headwinds Subtract from Growth in Output per Head",
+      # Folded narrow: ggplot2 never wraps a subtitle
+      subtitle = T_02_01b_fold_fn(paste0(
+        "Illustrative. The headwinds are Gordon's; the equal steps are not ",
+        "his estimates. They are drawn taking ", T_02_06_pct_fn(cut, 0),
+        " of this model's own balanced rate, ",
+        T_02_06_pct_fn(g_start, 2), "."), 76),
       x = NULL,
       y = expression(bold("Growth in output per head (" * g[A] * ")")),
       caption = paste(
